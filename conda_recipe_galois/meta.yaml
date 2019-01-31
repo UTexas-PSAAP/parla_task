@@ -15,16 +15,13 @@ source:
     - remove_llvm_include.patch
 
 build:
-  number: 3
+  number: 4
   skip: true # [not linux]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
-  run:
-    - boost-cpp
-  host:
     - boost-cpp
 
 about:
