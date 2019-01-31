@@ -10,6 +10,7 @@ from libc.stddef cimport size_t
 from libc.stdint cimport uintptr_t
 
 import numba
+import numba.ccallback
 import ctypes
 
 cdef extern from "task_graph.hpp" nogil:
