@@ -28,6 +28,8 @@ cdef extern from "task_graph.hpp" nogil:
 
 cdef class task(object):
     cdef cpp_task owned_task
+    cdef object operation
+    cdef object closure
     def __eq__(task self, task other):
         return self.owned_task == other.owned_task
     def __ne__(task self, task other):
