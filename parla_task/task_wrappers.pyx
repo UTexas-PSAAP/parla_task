@@ -75,3 +75,4 @@ def create_task(context, operation, closure, list dependencies):
     ret.owned_task = create_task_cpp(<void*>(<size_t>context), _get_operation_ptr(operation), <void*>(<uintptr_t>id(closure)), size, deps.data())
     ret.operation = operation
     ret.closure = closure
+    return ret
