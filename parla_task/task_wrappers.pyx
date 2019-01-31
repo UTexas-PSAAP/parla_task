@@ -51,8 +51,7 @@ cdef _operation_ptr _get_operation_ptr(operation) except NULL:
         raise NotImplementedError("Please use cfunc decorator instead. "
                                   "Using a compiler result object is "
                                   "not yet supported.")
-    raise ValueError("Object passed as task operation has "
-                     "an unrecognized type.")
+    return (<_operation_ptr*>(<uintptr_t>(int(ctypes.addressof(operation)))))[0]
 
 def run_generation_task(operation, closure):
     # TODO: What is a better way to allow passing the context pointer?
