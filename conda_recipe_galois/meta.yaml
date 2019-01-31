@@ -15,7 +15,7 @@ source:
     - remove_llvm_include.patch
 
 build:
-  number: 2
+  number: 3
   skip: true # [not linux]
 
 requirements:
