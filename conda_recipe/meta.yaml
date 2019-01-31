@@ -8,20 +8,18 @@ package:
   version: {{ version }}
 
 build:
-  number: 3
+  number: 4
   skip: true # [not linux]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
-  run:
+    - galois
     - boost-cpp
   host:
     - python
     - cython
-    - galois
-    - boost-cpp
     - numba
 
 about:
