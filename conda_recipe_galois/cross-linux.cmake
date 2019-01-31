@@ -18,3 +18,5 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 # god-awful hack because it seems to not run correct tests to determine this:
 set(__CHAR_UNSIGNED___EXITCODE 1)
+set(HAVE_HUGEPAGES_INTERNAL_EXITCODE 1)
+set(HAVE_HUGEPAGES_INTERNAL_EXITCODE__TRYRUN_OUTPUT "")

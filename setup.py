@@ -5,7 +5,7 @@ from distutils.extension import Extension
 Extensions = [
     Extension("parla_task.task_wrappers",
         ["parla_task/task_wrappers.pyx"],
-        libraries = ["numa"]
+        #libraries = ["numa"]
     )
 ]
 
