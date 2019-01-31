@@ -22,8 +22,9 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
-    - boost-cpp
   run:
+    - boost-cpp
+  host:
     - boost-cpp
 
 about:
