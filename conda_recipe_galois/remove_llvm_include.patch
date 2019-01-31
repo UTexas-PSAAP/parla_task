@@ -1,0 +1,13 @@
+diff --git a/libgalois/include/galois/graphs/MorphGraph.h b/libgalois/include/galois/graphs/MorphGraph.h
+index 8e0d85e..5a367e6 100644
+--- a/libgalois/include/galois/graphs/MorphGraph.h
++++ b/libgalois/include/galois/graphs/MorphGraph.h
+@@ -34,8 +34,6 @@
+ #include "galois/graphs/Details.h"
+ #include "galois/Galois.h"
+ 
+-#include "llvm/ADT/SmallVector.h"
+-
+ #include <boost/functional.hpp>
+ #include <boost/iterator/transform_iterator.hpp>
+ #include <boost/iterator/filter_iterator.hpp>
