@@ -1,0 +1,33 @@
+{% set version = "0.1" %}
+# Boost doesn't have ABI compat guarantees across versions,
+# so fix the version throughout build and run time.
+#{% set boost_version = "1.69" %}
+
+package:
+  name: parla_task
+  version: {{ version }}
+
+build:
+  number: 3
+  skip: true # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake
+  run:
+    - boost-cpp
+  host:
+    - python
+    - cython
+    - galois
+    - boost-cpp
+    - numba
+
+about:
+  license: BSD
+  summary: Low-level tasking runtime.
+
+extra:
+  recipe-maintainers:
+    - insertinterestingnamehere
