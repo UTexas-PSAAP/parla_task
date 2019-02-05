@@ -27,7 +27,7 @@ cdef extern from "task_graph.hpp" nogil:
     void run_generation_task_cpp "run_generation_task"(void (*operation)(void*, void*), void *closure)
     cpp_task create_task_cpp "create_task"(void *ctx, void (*operation)(void*, void*), void *closure, size_t num_deps, cpp_task_ref *dependencies)
 
-cdef extern from "galois/Threads.h" nogil:
+cdef extern from "galois/Threads.h" namespace "galois" nogil:
     unsigned int setActiveThreads(unsigned int num);
 
 cdef class task(object):
