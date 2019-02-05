@@ -6,5 +6,5 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_CXX_FLAGS="
 make galois_shmem -j
 # Manually install runtime static lib.
 cp libgalois/libgalois_shmem.a $PREFIX/lib/libgalois_shmem.a
-mkdir $PREFIX/include
+mkdir -p $PREFIX/include
 cp -r ../libgalois/include/galois $PREFIX/include/galois

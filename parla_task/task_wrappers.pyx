@@ -10,6 +10,9 @@ from libc.stddef cimport size_t
 from libc.stdint cimport uintptr_t
 
 import numba
+import numba.ccallback
+import ctypes
+import psutil
 
 cdef extern from "task_graph.hpp" nogil:
     cdef cppclass cpp_task "task":
@@ -24,8 +27,13 @@ cdef extern from "task_graph.hpp" nogil:
     void run_generation_task_cpp "run_generation_task"(void (*operation)(void*, void*), void *closure)
     cpp_task create_task_cpp "create_task"(void *ctx, void (*operation)(void*, void*), void *closure, size_t num_deps, cpp_task_ref *dependencies)
 
+cdef extern from "galois/Threads.h" nogil:
+    unsigned int setActiveThreads(unsigned int num);
+
 cdef class task(object):
     cdef cpp_task owned_task
+    cdef object operation
+    cdef object closure
     def __eq__(task self, task other):
         return self.owned_task == other.owned_task
     def __ne__(task self, task other):
@@ -35,6 +43,8 @@ cdef cpp_task_ref _get_cpp_task_ref(task t) except *:
     if t is None:
         raise ValueError("Cannot extract underlying task object from None.")
     return cpp_task_ref(t.owned_task)
+
+setActiveThreads(psutil.cpu_count(logical=False))
 
 ctypedef void(*_operation_ptr)(void*, void*) nogil;
 
@@ -51,8 +61,7 @@ cdef _operation_ptr _get_operation_ptr(operation) except NULL:
         raise NotImplementedError("Please use cfunc decorator instead. "
                                   "Using a compiler result object is "
                                   "not yet supported.")
-    raise ValueError("Object passed as task operation has "
-                     "an unrecognized type.")
+    return (<_operation_ptr*>(<uintptr_t>(int(ctypes.addressof(operation)))))[0]
 
 def run_generation_task(operation, closure):
     # TODO: What is a better way to allow passing the context pointer?
@@ -75,3 +84,4 @@ def create_task(context, operation, closure, list dependencies):
     ret.owned_task = create_task_cpp(<void*>(<size_t>context), _get_operation_ptr(operation), <void*>(<uintptr_t>id(closure)), size, deps.data())
     ret.operation = operation
     ret.closure = closure
+    return ret
