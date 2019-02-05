@@ -12,6 +12,7 @@ from libc.stdint cimport uintptr_t
 import numba
 import numba.ccallback
 import ctypes
+import psutil
 
 cdef extern from "task_graph.hpp" nogil:
     cdef cppclass cpp_task "task":
@@ -26,6 +27,9 @@ cdef extern from "task_graph.hpp" nogil:
     void run_generation_task_cpp "run_generation_task"(void (*operation)(void*, void*), void *closure)
     cpp_task create_task_cpp "create_task"(void *ctx, void (*operation)(void*, void*), void *closure, size_t num_deps, cpp_task_ref *dependencies)
 
+cdef extern from "galois/Threads.h" nogil:
+    unsigned int setActiveThreads(unsigned int num);
+
 cdef class task(object):
     cdef cpp_task owned_task
     cdef object operation
@@ -39,6 +43,8 @@ cdef cpp_task_ref _get_cpp_task_ref(task t) except *:
     if t is None:
         raise ValueError("Cannot extract underlying task object from None.")
     return cpp_task_ref(t.owned_task)
+
+setActiveThreads(psutil.cpu_count(logical=False))
 
 ctypedef void(*_operation_ptr)(void*, void*) nogil;
 
