@@ -276,23 +276,17 @@ void notify_dependers(void *ctx, task_ref tsk) {
 // Actually run a task, including the notifying logic, etc.
 // Current limitation: Must be called from inside a Galois parallel block.
 void run_task(user_context_t &ctx, task_ref tsk) {
-  std::cout << "start" << std::endl;
   auto &data = ::task_graph_base.getData(tsk.node_ref, galois::MethodFlag::UNPROTECTED);
   // Run it.
-  std::cout << "execute" << std::endl;
   data(ctx);
-  std::cout << "mark complete" << std::endl;
   mark_complete(tsk);
-  std::cout << "notify" << std::endl;
   notify_dependers(reinterpret_cast<void*>(&ctx), tsk);
   // Release the reference owned by the task graph.
   // This reference represents the fact that the
   // execution engine is waiting to run the task
   // and requires that it not be deleted until it
   // has actually run.
-  std::cout << "release ref" << std::endl;
   task_decref(tsk.node_ref);
-  std::cout << "finished" << std::endl;
 }
 
 // User facing!
@@ -315,7 +309,6 @@ void run_generation_task(void (*operation)(void*, void*), void *closure) {
     galois::wl<PTChunk>(),
     galois::no_conflicts()
   );
-  std::cout << "end for_each" << std::endl;
 }
 
 // User facing way to create tasks from inside another task.
