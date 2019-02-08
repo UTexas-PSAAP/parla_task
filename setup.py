@@ -6,6 +6,7 @@ Extensions = [
     Extension("parla_task.task_wrappers",
         ["parla_task/task_wrappers.pyx"],
         #libraries = ["numa"]
+        extra_compile_args = ["-std=c++14"]
     )
 ]
 

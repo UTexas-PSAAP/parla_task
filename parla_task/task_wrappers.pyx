@@ -67,8 +67,10 @@ def run_generation_task(operation, closure):
     # TODO: What is a better way to allow passing the context pointer?
     # For now just assume it's being passed as an actual Python object,
     # but that seems like a dubious way to do things.
-    run_generation_task_cpp(_get_operation_ptr(operation),
-                            <void*>(<uintptr_t>id(closure)))
+    cdef _operation_ptr operation_ptr = _get_operation_ptr(operation)
+    cdef void *closure_ptr = <void*>(<uintptr_t>id(closure))
+    with nogil:
+        run_generation_task_cpp(operation_ptr, closure_ptr)
 
 # For now assume context is a Python object wrapping the raw void pointer.
 # TODO: Make thie JIT callable without interpreter overhead.
@@ -81,7 +83,13 @@ def create_task(context, operation, closure, list dependencies):
             raise ValueError("Non-task object passed as dependency.")
         deps.push_back(_get_cpp_task_ref(dependencies[i]))
     cdef task ret = task.__new__(task)
-    ret.owned_task = create_task_cpp(<void*>(<size_t>context), _get_operation_ptr(operation), <void*>(<uintptr_t>id(closure)), size, deps.data())
+    cdef void *context_ptr = <void*>(<uintptr_t>context)
+    cdef _operation_ptr operation_ptr = _get_operation_ptr(operation)
+    cdef void *closure_ptr = <void*>(<uintptr_t>id(closure))
+    #cdef cpp_task owned_task
+    with nogil:
+        ret.owned_task = create_task_cpp(context_ptr, operation_ptr, closure_ptr, size, deps.data())
+    #ret.owned_task = owned_task
     ret.operation = operation
     ret.closure = closure
     return ret

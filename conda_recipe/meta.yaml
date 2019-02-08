@@ -8,7 +8,7 @@ package:
   version: {{ version }}
 
 build:
-  number: 5
+  number: 8
   skip: true # [not linux]
 
 requirements:
@@ -21,6 +21,7 @@ requirements:
     - python
     - cython
     - numba
+    - psutil
 
 about:
   license: BSD
