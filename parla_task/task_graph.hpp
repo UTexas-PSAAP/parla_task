@@ -306,7 +306,7 @@ void run_generation_task(void (*operation)(void*, void*), void *closure) {
       run_task(ctx, t);
     },
 //    galois::loopname("run_tasks"),
-    galois::wl<PTChunk>(),
+    galois::wl<PSChunk>(),
     galois::no_conflicts()
   );
 }
