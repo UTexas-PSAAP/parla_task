@@ -23,7 +23,9 @@ inline static void bind_threads_to_gpus() {
   auto stat1 = cudaGetDeviceCount(&devices);
   // TODO: better error handling here.
   if (stat1 != cudaSuccess) {
-    GALOIS_DIE("Failed to detect number of available GPUs.");
+    // If we can't find any cuda devices, just use one thread for the CPU so the
+    // high-level tasking code can still work at all.
+    devices = 0;
   }
   // One thread for CPU.
   // Others for GPU.
