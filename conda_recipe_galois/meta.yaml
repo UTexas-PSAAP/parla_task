@@ -1,4 +1,4 @@
-{% set version = "4.0" %}
+{% set version = "5.0" %}
 # Boost doesn't have ABI compat guarantees across versions,
 # so fix the version throughout build and run time.
 #{% set boost_version = "1.69" %}
@@ -8,14 +8,10 @@ package:
   version: {{ version }}
 
 source:
-  fn: Galois-release-{{version}}.zip
-  url: https://github.com/IntelligentSoftwareSystems/Galois/archive/release-4.0.zip
-  sha256: 5c41ae225b815f1f43f7c3ffb8b9d19b4c81375e3072156288dfc0d153643040
-  patches:
-    - remove_llvm_include.patch
+  url: https://github.com/IntelligentSoftwareSystems/Galois/archive/master.zip
 
 build:
-  number: 4
+  number: 0
   skip: true # [not linux]
 
 requirements:
