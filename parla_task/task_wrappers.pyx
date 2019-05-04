@@ -12,7 +12,7 @@ from libc.stdint cimport uintptr_t
 import numba
 import numba.ccallback
 import ctypes
-import psutil
+#import psutil
 
 cdef extern from "task_graph.hpp" nogil:
     cdef cppclass cpp_task "task":
@@ -44,7 +44,7 @@ cdef cpp_task_ref _get_cpp_task_ref(task t) except *:
         raise ValueError("Cannot extract underlying task object from None.")
     return cpp_task_ref(t.owned_task)
 
-setActiveThreads(psutil.cpu_count(logical=False))
+#setActiveThreads(psutil.cpu_count(logical=False))
 
 ctypedef void(*_operation_ptr)(void*, void*) nogil;
 
