@@ -1,2 +1,3 @@
 cd $RECIPE_DIR/..
-$PYTHON setup.py build_ext --include-dirs=$BUILD_PREFIX/include --library-dirs=/usr/lib64 --libraries=numa --link-objects=$BUILD_PREFIX/lib/libgalois_shmem.a install
+rm -rf build
+$PYTHON setup.py --verbose build_ext --verbose --include-dirs=$BUILD_PREFIX/include --library-dirs=/usr/lib64 --libraries=numa install

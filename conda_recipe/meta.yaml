@@ -8,22 +8,25 @@ package:
   version: {{ version }}
 
 build:
-  number: 12
+  number: 16
   skip: true # [not linux]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
-    - galois
-    - boost-cpp
   host:
     - python=3.6
     - cython
+    - galois=5
+    - boost-cpp
+    - cudatoolkit-dev
   run:
+    - galois=5
     - python=3.6
     - numba
-    - psutil
+    #- psutil
+    - cudatoolkit-dev
 
 about:
   license: BSD
