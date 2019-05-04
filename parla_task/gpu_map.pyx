@@ -1,6 +1,6 @@
 # distutils: language = c++
 
-cdef extern from "map_onto_gpu.h" nogil:
+cdef extern from "map_onto_gpu.hpp" nogil:
     struct cublasHandle_t:
         pass
     struct cusolverDnHandle_t:
